@@ -2,7 +2,7 @@ jdk:
   - openjdk17
 
 install:
-  - ./gradlew -PGROUP=$GROUP -PVERSION=$VERSION clean :library:assembleRelease :library:publishReleasePublicationToMavenRepository --no-daemon
+  - ./gradlew -PGROUP=$GROUP -PVERSION=$VERSION clean :library:assembleRelease :library:publishReleasePublicationToMavenLocal --no-daemon
 
 before_install:
   - ./gradlew clean
