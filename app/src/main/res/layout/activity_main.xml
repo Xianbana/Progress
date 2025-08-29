@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="XianProgress 进度条演示"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintBottom_toTopOf="@+id/btn_randomize"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp">
+
+
+            <!-- KPI 区域：三枚圆环 KPI -->
+            <TextView
+                android:id="@+id/section_kpi_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="关键指标"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.xian.progress.CircularProgressBar
+                android:id="@+id/kpi_circle_1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="16dp"
+                app:animateFromZero="true"
+                app:enableAnimation="true"
+                app:progressBackgroundColor="#FFEDE7"
+                app:progressColor="#FF7043"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/section_kpi_title"
+                app:progress="72" />
+
+            <TextView
+                android:id="@+id/kpi_label_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="今日完成"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/kpi_circle_1"
+                app:layout_constraintTop_toBottomOf="@id/kpi_circle_1" />
+
+            <com.xian.progress.CircularProgressBar
+                android:id="@+id/kpi_circle_2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:animateFromZero="true"
+                app:enableAnimation="true"
+                app:progressBackgroundColor="#E3F2FD"
+                app:progressColor="#42A5F5"
+                app:layout_constraintStart_toEndOf="@id/kpi_circle_1"
+                app:layout_constraintTop_toTopOf="@id/kpi_circle_1"
+                app:layout_constraintEnd_toStartOf="@id/kpi_circle_3"
+                app:progress="45" />
+
+            <TextView
+                android:id="@+id/kpi_label_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="进行中"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/kpi_circle_2"
+                app:layout_constraintTop_toBottomOf="@id/kpi_circle_2" />
+
+            <com.xian.progress.CircularProgressBar
+                android:id="@+id/kpi_circle_3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:animateFromZero="true"
+                app:enableAnimation="true"
+                app:progressBackgroundColor="#E8F5E9"
+                app:progressColor="#66BB6A"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/kpi_circle_1"
+                app:progress="88" />
+
+            <TextView
+                android:id="@+id/kpi_label_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="整体进度"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/kpi_circle_3"
+                app:layout_constraintTop_toBottomOf="@id/kpi_circle_3" />
+
+            <!-- 进度概览：多条水平进度条 -->
+            <TextView
+                android:id="@+id/section_list_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="项目进度概览"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/kpi_label_3" />
+
+            <!-- 条目 1 -->
+            <TextView
+                android:id="@+id/item_title_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="模块 A"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@id/item_value_1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/section_list_title" />
+
+            <TextView
+                android:id="@+id/item_value_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/item_title_1" />
+
+            <com.xian.progress.HorizontalProgressBar
+                android:id="@+id/item_bar_1"
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:layout_marginTop="6dp"
+                app:enableAnimation="true"
+                app:animateFromZero="true"
+                app:progressBackgroundColor="#F5F5F5"
+                app:progressColor="#FF7043"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_title_1" />
+
+            <!-- 条目 2 -->
+            <TextView
+                android:id="@+id/item_title_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="模块 B"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@id/item_value_2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_bar_1" />
+
+            <TextView
+                android:id="@+id/item_value_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/item_title_2" />
+
+            <com.xian.progress.HorizontalProgressBar
+                android:id="@+id/item_bar_2"
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:layout_marginTop="6dp"
+                app:enableAnimation="true"
+                app:animateFromZero="true"
+                app:progressBackgroundColor="#F5F5F5"
+                app:progressColor="#42A5F5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_title_2" />
+
+            <!-- 条目 3 -->
+            <TextView
+                android:id="@+id/item_title_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="模块 C"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@id/item_value_3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_bar_2" />
+
+            <TextView
+                android:id="@+id/item_value_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/item_title_3" />
+
+            <com.xian.progress.HorizontalProgressBar
+                android:id="@+id/item_bar_3"
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:layout_marginTop="6dp"
+                app:enableAnimation="true"
+                app:animateFromZero="true"
+                app:progressBackgroundColor="#F5F5F5"
+                app:progressColor="#AB47BC"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_title_3" />
+
+            <!-- 条目 4 -->
+            <TextView
+                android:id="@+id/item_title_4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="模块 D"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@id/item_value_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_bar_3" />
+
+            <TextView
+                android:id="@+id/item_value_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/item_title_4" />
+
+            <com.xian.progress.HorizontalProgressBar
+                android:id="@+id/item_bar_4"
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:layout_marginTop="6dp"
+                app:enableAnimation="true"
+                app:animateFromZero="true"
+                app:progressBackgroundColor="#F5F5F5"
+                app:progressColor="#26A69A"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_title_4" />
+
+            <!-- 底部留白，避免被下方按钮遮挡 -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_bar_4" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- 底部随机按钮 -->
+    <Button
+        android:id="@+id/btn_randomize"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="随机进度"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintWidth_percent=".9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

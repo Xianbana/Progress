@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="HorizontalProgressBar">
+        <!-- 背景颜色 -->
+        <attr name="progressBackgroundColor" format="color" />
+        
+        <!-- 进度颜色 -->
+        <attr name="progressColor" format="color" />
+        
+        <!-- 进度值 (支持int和float) -->
+        <attr name="progress" format="float" />
+        
+        <!-- 是否启用动画 -->
+        <attr name="enableAnimation" format="boolean" />
+        
+        <!-- 动画是否从0开始 -->
+        <attr name="animateFromZero" format="boolean" />
+        
+        <!-- 动画时长 (毫秒) -->
+        <attr name="animationDuration" format="integer" />
+        
+        <!-- 圆角半径 -->
+        <attr name="cornerRadius" format="dimension" />
+        
+        <!-- 进度条高度 -->
+        <attr name="progressHeight" format="dimension" />
+    </declare-styleable>
+
+    <!-- CircularProgressBar 复用相同属性集 -->
+    <declare-styleable name="CircularProgressBar">
+        <attr name="progressBackgroundColor" />
+        <attr name="progressColor" />
+        <attr name="progress" />
+        <attr name="enableAnimation" />
+        <attr name="animateFromZero" />
+        <attr name="animationDuration" />
+        <attr name="cornerRadius" />
+        <attr name="progressHeight" />
+    </declare-styleable>
+</resources>
