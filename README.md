@@ -18,6 +18,10 @@
 - 🚀 基于Kotlin和现代Android技术栈
 - 🔢 支持int和float进度值
 - ⏸️ 支持动画暂停与恢复（水平）
+- 🔄 **配置自动应用**：修改任何配置后自动应用到当前进度
+- 🎛️ **完整API支持**：每个配置属性都有对应的setter/getter方法
+- 🎨 **灵活配置**：支持完整配置和单个属性配置两种方式
+- ⚡ **即时生效**：配置修改后立即生效，无需重新设置进度
 
 ## 安装
 
@@ -99,6 +103,7 @@ dependencies {
 
 ### 3. 代码配置
 
+#### 3.1 设置进度值
 ```kotlin
 // 在代码中设置进度
 val progressBar = findViewById<HorizontalProgressBar>(R.id.progress_bar)
@@ -107,16 +112,31 @@ val progressBar = findViewById<HorizontalProgressBar>(R.id.progress_bar)
 progressBar.setProgress(75)      // int
 progressBar.setProgress(75.5f)   // float
 progressBar.setProgress(75.0)    // double
+```
 
-// 设置自定义配置
+#### 3.2 完整配置（推荐）
+```kotlin
+// 使用ProgressConfig一次性设置所有配置
 val config = ProgressConfig(
-    backgroundColor = Color.parseColor("#E0E0E0"),
-    progressColor = Color.parseColor("#4CAF50"),
+    backgroundColor = "#E0E0E0".toColorInt(),
+    progressColor = "#4CAF50".toColorInt(),
     enableAnimation = true,
+    animateFromZero = true,
     animationDuration = 1500L,
     cornerRadius = 20f
 )
 progressBar.setProgressConfig(config)
+```
+
+#### 3.3 单个属性配置
+```kotlin
+// 单独设置各个属性（配置会自动应用）
+progressBar.setBackgroundColor("#E0E0E0".toColorInt())
+progressBar.setProgressColor("#4CAF50".toColorInt())
+progressBar.setEnableAnimation(true)
+progressBar.setAnimateFromZero(true)
+progressBar.setAnimationDuration(1500L)
+progressBar.setCornerRadius(20f)
 ```
 
 ### 4. 进度监听
@@ -143,7 +163,7 @@ progressBar.resumeAnimation()
 progressBar.reset()
 ```
 
-## API 参考（节选）
+## API 参考
 
 ### ProgressConfig
 
@@ -165,20 +185,86 @@ progressBar.reset()
 
 ### HorizontalProgressBar / CircularProgressBar
 
-- `setProgressConfig(config: ProgressConfig)`
-- `setProgress(progress: Number)` / `setProgress(progress: Int/Float)`
-- `getCurrentProgress(): Float` / `getTargetProgress(): Float`
-- （水平）`isAnimating()/pauseAnimation()/resumeAnimation()/reset()`
-- `onProgressChanged: (Float) -> Unit`
-- `onProgressComplete: (Boolean) -> Unit`
+#### 配置方法
+- `setProgressConfig(config: ProgressConfig)` - 设置完整配置
+- `setBackgroundColor(@ColorInt backgroundColor: Int)` - 设置背景颜色
+- `getBackgroundColor(): Int` - 获取背景颜色
+- `setProgressColor(@ColorInt progressColor: Int)` - 设置进度颜色
+- `getProgressColor(): Int` - 获取进度颜色
 
-## 示例
+#### 动画控制
+- `setEnableAnimation(enableAnimation: Boolean)` - 设置是否启用动画
+- `isAnimationEnabled(): Boolean` - 获取是否启用动画
+- `setAnimateFromZero(animateFromZero: Boolean)` - 设置是否从0开始动画
+- `isAnimateFromZero(): Boolean` - 获取是否从0开始动画
+- `setAnimationDuration(animationDuration: Long)` - 设置动画时长
+- `getAnimationDuration(): Long` - 获取动画时长
 
+#### 样式控制
+- `setCornerRadius(cornerRadius: Float)` - 设置圆角半径
+- `getCornerRadius(): Float` - 获取圆角半径
+
+#### 进度控制
+- `setProgress(progress: ProgressData)` - 设置进度（ProgressData）
+- `setProgress(progress: Number)` - 设置进度（Number类型）
+- `setProgress(progress: Int)` - 设置进度（Int类型）
+- `setProgress(progress: Float)` - 设置进度（Float类型）
+- `getCurrentProgress(): Float` - 获取当前进度
+- `getTargetProgress(): Float` - 获取目标进度
+- `isAnimating(): Boolean` - 是否正在动画中
+
+#### 动画控制（仅水平进度条）
+- `pauseAnimation()` - 暂停动画
+- `resumeAnimation()` - 恢复动画
+- `reset()` - 重置进度条
+
+#### 回调监听
+- `onProgressChanged: (Float) -> Unit` - 进度变化回调
+- `onProgressComplete: (Boolean) -> Unit` - 进度完成回调
+
+## 使用示例
+
+### 基础使用
+```kotlin
+// XML中定义
+<com.xian.progress.HorizontalProgressBar
+    android:id="@+id/progress_bar"
+    android:layout_width="match_parent"
+    android:layout_height="25dp"
+    app:progress="0"
+    app:enableAnimation="true" />
+
+// 代码中设置进度
+progressBar.setProgress(75)
+```
+
+### 动态配置
+```kotlin
+// 方式1：完整配置
+val config = ProgressConfig(
+    backgroundColor = "#E0E0E0".toColorInt(),
+    progressColor = "#4CAF50".toColorInt(),
+    enableAnimation = true,
+    animateFromZero = true,
+    animationDuration = 2000L,
+    cornerRadius = 15f
+)
+progressBar.setProgressConfig(config)
+
+// 方式2：单个属性配置（推荐）
+progressBar.setBackgroundColor("#E0E0E0".toColorInt())
+progressBar.setProgressColor("#4CAF50".toColorInt())
+progressBar.setAnimationDuration(2000L)
+// 配置会自动应用到当前进度，无需重新调用setProgress
+```
+
+### 完整示例
 查看 `app` 模块中的 `MainActivity` 了解完整的仪表盘示例，包括：
 
 - 三枚圆环 KPI（支持动画与从 0 开始）
 - 多条水平进度条概览（多色主题）
 - 一键随机进度演示按钮
+- 动态配置测试功能
 
 
 ## 发布信息
