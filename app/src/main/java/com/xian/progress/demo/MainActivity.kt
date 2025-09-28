@@ -1,6 +1,9 @@
 package com.xian.progress.demo
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -28,13 +31,17 @@ class MainActivity : AppCompatActivity() {
 
 
         bin.test.setOnClickListener {
-            // 为水平进度条设置单个属性，测试配置是否自动应用
-            bin.itemBar1.setBackgroundColor("#FFF3E0".toColorInt()) // 浅橙色背景
-            bin.itemBar1.setProgressColor("#FF9800".toColorInt())   // 橙色进度
-            bin.itemBar1.setEnableAnimation(true)
-            bin.itemBar1.setAnimateFromZero(true)
-            bin.itemBar1.setAnimationDuration(1000L) // 3秒动画
-            bin.itemBar1.setCornerRadius(360f)         // 圆角半径
+            // 随机选择3、4、5秒作为动画时间
+            val animationDuration = listOf(7000L).random()
+            
+            // 设置item_bar_5的动画时间
+            bin.itemBar5.setAnimationDuration(animationDuration)
+            bin.itemBar5.setEnableAnimation(true)
+            bin.itemBar5.setAnimateFromZero(true)
+            bin.itemBar5.setProgress(100)
+            
+            // 实现time TextView从0-100的动画效果
+            animateTimeTextView(animationDuration)
         }
 
     }
@@ -96,5 +103,34 @@ class MainActivity : AppCompatActivity() {
         kpiCircle1.setEnableAnimation(true)
         kpiCircle1.setAnimationDuration(3000L) // 3秒动画
         kpiCircle1.setProgress(80)
+    }
+    
+    private fun animateTimeTextView(duration: Long) {
+        val startTime = System.currentTimeMillis()
+        val handler = Handler(Looper.getMainLooper())
+        val interval = 16L // 60fps
+        
+        val runnable = object : Runnable {
+            override fun run() {
+                val currentTime = System.currentTimeMillis()
+                val elapsed = currentTime - startTime
+                
+                if (elapsed < duration) {
+                    // 基于实际经过的时间计算进度，更精确
+                    val progress = (elapsed * 100f / duration).toInt().coerceAtMost(100)
+                    bin.time.text = "$progress%"
+                    handler.postDelayed(this, interval)
+                } else {
+                    // 确保最后显示100%
+                    bin.time.text = "100%"
+                    val actualDuration = currentTime - startTime
+                    Log.d("xianban", "设置时间: ${duration}ms, 实际耗时: ${actualDuration}ms, 误差: ${actualDuration - duration}ms")
+                }
+            }
+        }
+        
+        // 重置为0开始动画
+        bin.time.text = "0%"
+        handler.post(runnable)
     }
 }

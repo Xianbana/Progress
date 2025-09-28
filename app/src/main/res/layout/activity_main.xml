@@ -266,6 +266,29 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0%"
+        app:layout_constraintBottom_toTopOf="@+id/item_bar_5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.xian.progress.HorizontalProgressBar
+        android:id="@+id/item_bar_5"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="6dp"
+        app:animateFromZero="true"
+        app:enableAnimation="true"
+        app:layout_constraintWidth_percent=".5"
+        app:layout_constraintBottom_toTopOf="@+id/test"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:progressBackgroundColor="#F5F5F5"
+        app:progressColor="#FF7043" />
+
     <!-- 底部随机按钮 -->
     <Button
         android:id="@+id/btn_randomize"

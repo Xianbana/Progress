@@ -9,6 +9,7 @@ import android.graphics.RectF
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.ColorInt
@@ -44,6 +45,10 @@ class CircularProgressBar @JvmOverloads constructor(
     private val handler = Handler(Looper.getMainLooper())
     private var animationRunnable: Runnable? = null
     private var isAnimating = false
+    
+    // 动画时间测量
+    private var animationStartTime: Long = 0L
+    private var animationEndTime: Long = 0L
 
     var onProgressComplete: ((Boolean) -> Unit)? = null
     var onProgressChanged: ((Float) -> Unit)? = null
@@ -325,24 +330,41 @@ class CircularProgressBar @JvmOverloads constructor(
         handler.removeCallbacksAndMessages(null)
         animationRunnable?.let { handler.removeCallbacks(it) }
         
-        isAnimating = true
+        // 记录动画开始时间和起始进度
+        animationStartTime = System.currentTimeMillis()
+        val startProgress = if (progressConfig.animateFromZero) 0f else currentProgress
         val totalDuration = progressConfig.animationDuration
         val interval = 16L
-        if (progressConfig.animateFromZero) {
-            currentProgress = 0f
-        }
-        val distance = (targetProgress - currentProgress).coerceAtLeast(0f)
-        val steps = ((totalDuration / interval).toInt()).coerceAtLeast(1)
-        val increment = if (distance == 0f) 0f else distance / steps
+        
+        Log.d("CircularProgressBar", "动画开始 - 设置时长: ${totalDuration}ms, 起始进度: ${startProgress}%, 目标进度: ${targetProgress}%")
+        
+        // 设置起始进度
+        currentProgress = startProgress
+        isAnimating = true
 
         animationRunnable = object : Runnable {
             override fun run() {
-                if (currentProgress < targetProgress && isAnimating) {
-                    currentProgress = (currentProgress + increment).coerceAtMost(targetProgress)
+                val currentTime = System.currentTimeMillis()
+                val elapsed = currentTime - animationStartTime
+                
+                if (elapsed < totalDuration && isAnimating) {
+                    // 基于实际经过的时间计算当前进度
+                    val progressRatio = elapsed.toFloat() / totalDuration.toFloat()
+                    currentProgress = startProgress + (targetProgress - startProgress) * progressRatio
+                    
                     invalidate()
                     onProgressChanged?.invoke(currentProgress)
                     handler.postDelayed(this, interval)
                 } else {
+                    // 动画完成
+                    animationEndTime = System.currentTimeMillis()
+                    val actualDuration = animationEndTime - animationStartTime
+                    val error = actualDuration - totalDuration
+                    
+                    Log.d("CircularProgressBar", 
+                        "动画完成 - 设置时长: ${totalDuration}ms, 实际耗时: ${actualDuration}ms, 误差: ${error}ms")
+                    
+                    // 确保最终进度精确
                     currentProgress = targetProgress
                     isAnimating = false
                     invalidate()
