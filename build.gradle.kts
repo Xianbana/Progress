@@ -7,7 +7,7 @@ plugins {
 
 // 版本管理
 ext {
-    set("libraryVersion", "1.0.0")
+    set("libraryVersion", "1.1.1")
     set("libraryGroupId", "com.github.Xianbana")
     set("libraryArtifactId", "Progress")
 }

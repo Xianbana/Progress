@@ -42,7 +42,7 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-    implementation("com.github.Xianbana:Progress:1.0.0")
+    implementation("com.github.Xianbana:Progress:1.1.1")
 }
 ```
 
@@ -51,7 +51,7 @@ dependencies {
 
 - 前往 GitHub Releases 页面下载最新 APK：
   - 最新版（自动随 Tag 生成）：`https://github.com/Xianbana/XianProgress/releases/latest`
-  - 或在具体版本页下载：`https://github.com/Xianbana/XianProgress/releases/tag/v1.0.0`
+  - 或在具体版本页下载：`https://github.com/Xianbana/XianProgress/releases/tag/v1.1.1`
 
 
 ### 1. XML属性配置（水平进度条）
@@ -271,7 +271,7 @@ progressBar.setAnimationDuration(2000L)
 
 - **Group ID**: `com.github.Xianbana`
 - **Artifact ID**: `Progress`
-- **版本**: `1.0.0`
+- **版本**: `1.1.1`
 - **许可证**: MIT License
 
 
