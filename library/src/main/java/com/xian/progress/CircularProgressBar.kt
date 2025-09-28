@@ -11,7 +11,7 @@ import android.os.Looper
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
-
+import androidx.annotation.ColorInt
 import com.xian.progress.model.ProgressConfig
 import com.xian.progress.model.ProgressData
 
@@ -128,11 +128,99 @@ class CircularProgressBar @JvmOverloads constructor(
         invalidate()
     }
 
+    /**
+     * 设置背景颜色
+     */
+    override fun setBackgroundColor(@ColorInt backgroundColor: Int) {
+        this.progressConfig = this.progressConfig.copy(backgroundColor = backgroundColor)
+        updatePaints()
+        // 只有在没有动画时才立即重绘，否则让动画自然重绘
+        if (!isAnimating) {
+            invalidate()
+        }
+    }
+
+    /**
+     * 获取背景颜色
+     */
+    @ColorInt
+    fun getBackgroundColor(): Int = this.progressConfig.backgroundColor
+
+    /**
+     * 设置进度颜色
+     */
+    fun setProgressColor(@ColorInt progressColor: Int) {
+        this.progressConfig = this.progressConfig.copy(progressColor = progressColor)
+        updatePaints()
+        // 只有在没有动画时才立即重绘，否则让动画自然重绘
+        if (!isAnimating) {
+            invalidate()
+        }
+    }
+
+    /**
+     * 获取进度颜色
+     */
+    @ColorInt
+    fun getProgressColor(): Int = this.progressConfig.progressColor
+
+    /**
+     * 设置是否启用动画
+     */
+    fun setEnableAnimation(enableAnimation: Boolean) {
+        this.progressConfig = this.progressConfig.copy(enableAnimation = enableAnimation)
+    }
+
+    /**
+     * 获取是否启用动画
+     */
+    fun isAnimationEnabled(): Boolean = this.progressConfig.enableAnimation
+
+    /**
+     * 设置是否每次动画从0开始
+     */
     fun setAnimateFromZero(animateFromZero: Boolean) {
         this.progressConfig = this.progressConfig.copy(animateFromZero = animateFromZero)
     }
 
+    /**
+     * 获取是否每次动画从0开始
+     */
     fun isAnimateFromZero(): Boolean = this.progressConfig.animateFromZero
+
+    /**
+     * 设置动画时长
+     */
+    fun setAnimationDuration(animationDuration: Long) {
+        this.progressConfig = this.progressConfig.copy(animationDuration = animationDuration)
+        
+        // 如果当前正在动画中，重新启动动画以使用新的时长
+        if (isAnimating) {
+            // 停止当前动画但不设置isAnimating为false
+            handler.removeCallbacksAndMessages(null)
+            animationRunnable?.let { handler.removeCallbacks(it) }
+            // 重新启动动画
+            startProgressAnimation()
+        }
+    }
+
+    /**
+     * 获取动画时长
+     */
+    fun getAnimationDuration(): Long = this.progressConfig.animationDuration
+
+    /**
+     * 设置圆角半径
+     */
+    fun setCornerRadius(cornerRadius: Float) {
+        this.progressConfig = this.progressConfig.copy(cornerRadius = cornerRadius)
+        invalidate()
+    }
+
+    /**
+     * 获取圆角半径
+     */
+    fun getCornerRadius(): Float = this.progressConfig.cornerRadius
 
     fun setProgress(progress: ProgressData) {
         this.progressData = progress
@@ -144,7 +232,7 @@ class CircularProgressBar @JvmOverloads constructor(
             return
         }
 
-        if (progressConfig.enableAnimation && !isAnimating) {
+        if (progressConfig.enableAnimation) {
             startProgressAnimation()
         } else {
             currentProgress = targetProgress
@@ -206,8 +294,11 @@ class CircularProgressBar @JvmOverloads constructor(
             invalidate()
             return
         }
-        if (isAnimating) return
-
+        
+        // 停止之前的动画
+        handler.removeCallbacksAndMessages(null)
+        animationRunnable?.let { handler.removeCallbacks(it) }
+        
         isAnimating = true
         val totalDuration = progressConfig.animationDuration
         val interval = 16L
@@ -217,9 +308,6 @@ class CircularProgressBar @JvmOverloads constructor(
         val distance = (targetProgress - currentProgress).coerceAtLeast(0f)
         val steps = ((totalDuration / interval).toInt()).coerceAtLeast(1)
         val increment = if (distance == 0f) 0f else distance / steps
-
-        handler.removeCallbacksAndMessages(null)
-        animationRunnable?.let { handler.removeCallbacks(it) }
 
         animationRunnable = object : Runnable {
             override fun run() {

@@ -60,6 +60,21 @@ class MainActivity : AppCompatActivity() {
             itemBar2.setProgress(m2); itemValue2.text = "$m2%"
             itemBar3.setProgress(m3); itemValue3.text = "$m3%"
             itemBar4.setProgress(m4); itemValue4.text = "$m4%"
+            
+            // 测试新添加的setter/getter方法
+            testNewSetters()
         }
+    }
+    
+    private fun testNewSetters() = with(bin) {
+        // 测试HorizontalProgressBar - 简单直接
+        itemBar1.setEnableAnimation(true)
+        itemBar1.setAnimationDuration(2000L) // 2秒动画
+        itemBar1.setProgress(75)
+        
+        // 测试CircularProgressBar - 简单直接
+        kpiCircle1.setEnableAnimation(true)
+        kpiCircle1.setAnimationDuration(3000L) // 3秒动画
+        kpiCircle1.setProgress(80)
     }
 }
