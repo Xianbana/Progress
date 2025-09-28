@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.xian.progress.demo.databinding.ActivityMainBinding
+import androidx.core.graphics.toColorInt
 
 class MainActivity : AppCompatActivity() {
     private lateinit var bin: ActivityMainBinding
@@ -24,6 +25,18 @@ class MainActivity : AppCompatActivity() {
 
         setupDashboard()
         setupRandomize()
+
+
+        bin.test.setOnClickListener {
+            // 为水平进度条设置单个属性，测试配置是否自动应用
+            bin.itemBar1.setBackgroundColor("#FFF3E0".toColorInt()) // 浅橙色背景
+            bin.itemBar1.setProgressColor("#FF9800".toColorInt())   // 橙色进度
+            bin.itemBar1.setEnableAnimation(true)
+            bin.itemBar1.setAnimateFromZero(true)
+            bin.itemBar1.setAnimationDuration(1000L) // 3秒动画
+            bin.itemBar1.setCornerRadius(360f)         // 圆角半径
+        }
+
     }
 
     private fun setupDashboard() = with(bin) {
@@ -67,11 +80,18 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun testNewSetters() = with(bin) {
-        // 测试HorizontalProgressBar - 简单直接
-        itemBar1.setEnableAnimation(true)
-        itemBar1.setAnimationDuration(2000L) // 2秒动画
-        itemBar1.setProgress(75)
-        
+        // 测试HorizontalProgressBar的setProgressConfig方法
+        val config = com.xian.progress.model.ProgressConfig(
+            backgroundColor = "#E8F5E9".toColorInt(), // 浅绿色背景
+            progressColor = "#4CAF50".toColorInt(),   // 绿色进度
+            enableAnimation = true,
+            animateFromZero = true,
+            animationDuration = 2500L, // 2.5秒动画
+            cornerRadius = 20f         // 圆角半径
+        )
+        itemBar1.setProgressConfig(config)
+        // 不需要再调用setProgress，配置会自动应用
+
         // 测试CircularProgressBar - 简单直接
         kpiCircle1.setEnableAnimation(true)
         kpiCircle1.setAnimationDuration(3000L) // 3秒动画

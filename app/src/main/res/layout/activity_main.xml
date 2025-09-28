@@ -19,13 +19,14 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintBottom_toTopOf="@+id/btn_randomize"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/title">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -51,11 +52,11 @@
                 android:layout_marginTop="16dp"
                 app:animateFromZero="true"
                 app:enableAnimation="true"
-                app:progressBackgroundColor="#FFEDE7"
-                app:progressColor="#FF7043"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/section_kpi_title"
-                app:progress="72" />
+                app:progress="72"
+                app:progressBackgroundColor="#FFEDE7"
+                app:progressColor="#FF7043" />
 
             <TextView
                 android:id="@+id/kpi_label_1"
@@ -72,12 +73,12 @@
                 android:layout_height="100dp"
                 app:animateFromZero="true"
                 app:enableAnimation="true"
-                app:progressBackgroundColor="#E3F2FD"
-                app:progressColor="#42A5F5"
+                app:layout_constraintEnd_toStartOf="@id/kpi_circle_3"
                 app:layout_constraintStart_toEndOf="@id/kpi_circle_1"
                 app:layout_constraintTop_toTopOf="@id/kpi_circle_1"
-                app:layout_constraintEnd_toStartOf="@id/kpi_circle_3"
-                app:progress="45" />
+                app:progress="45"
+                app:progressBackgroundColor="#E3F2FD"
+                app:progressColor="#42A5F5" />
 
             <TextView
                 android:id="@+id/kpi_label_2"
@@ -94,11 +95,11 @@
                 android:layout_height="100dp"
                 app:animateFromZero="true"
                 app:enableAnimation="true"
-                app:progressBackgroundColor="#E8F5E9"
-                app:progressColor="#66BB6A"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/kpi_circle_1"
-                app:progress="88" />
+                app:progress="88"
+                app:progressBackgroundColor="#E8F5E9"
+                app:progressColor="#66BB6A" />
 
             <TextView
                 android:id="@+id/kpi_label_3"
@@ -145,13 +146,13 @@
                 android:layout_width="0dp"
                 android:layout_height="18dp"
                 android:layout_marginTop="6dp"
-                app:enableAnimation="true"
                 app:animateFromZero="true"
-                app:progressBackgroundColor="#F5F5F5"
-                app:progressColor="#FF7043"
+                app:enableAnimation="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/item_title_1" />
+                app:layout_constraintTop_toBottomOf="@id/item_title_1"
+                app:progressBackgroundColor="#F5F5F5"
+                app:progressColor="#FF7043" />
 
             <!-- 条目 2 -->
             <TextView
@@ -178,13 +179,13 @@
                 android:layout_width="0dp"
                 android:layout_height="18dp"
                 android:layout_marginTop="6dp"
-                app:enableAnimation="true"
                 app:animateFromZero="true"
-                app:progressBackgroundColor="#F5F5F5"
-                app:progressColor="#42A5F5"
+                app:enableAnimation="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/item_title_2" />
+                app:layout_constraintTop_toBottomOf="@id/item_title_2"
+                app:progressBackgroundColor="#F5F5F5"
+                app:progressColor="#42A5F5" />
 
             <!-- 条目 3 -->
             <TextView
@@ -211,13 +212,13 @@
                 android:layout_width="0dp"
                 android:layout_height="18dp"
                 android:layout_marginTop="6dp"
-                app:enableAnimation="true"
                 app:animateFromZero="true"
-                app:progressBackgroundColor="#F5F5F5"
-                app:progressColor="#AB47BC"
+                app:enableAnimation="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/item_title_3" />
+                app:layout_constraintTop_toBottomOf="@id/item_title_3"
+                app:progressBackgroundColor="#F5F5F5"
+                app:progressColor="#AB47BC" />
 
             <!-- 条目 4 -->
             <TextView
@@ -244,13 +245,13 @@
                 android:layout_width="0dp"
                 android:layout_height="18dp"
                 android:layout_marginTop="6dp"
-                app:enableAnimation="true"
                 app:animateFromZero="true"
-                app:progressBackgroundColor="#F5F5F5"
-                app:progressColor="#26A69A"
+                app:enableAnimation="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/item_title_4" />
+                app:layout_constraintTop_toBottomOf="@id/item_title_4"
+                app:progressBackgroundColor="#F5F5F5"
+                app:progressColor="#26A69A" />
 
             <!-- 底部留白，避免被下方按钮遮挡 -->
             <View
@@ -276,4 +277,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    <Button
+        android:id="@+id/test"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="测试"
+        app:layout_constraintBottom_toBottomOf="@+id/nestedScrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent=".9" />
 </androidx.constraintlayout.widget.ConstraintLayout>

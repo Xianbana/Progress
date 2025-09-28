@@ -125,7 +125,13 @@ class CircularProgressBar @JvmOverloads constructor(
     fun setProgressConfig(config: ProgressConfig) {
         this.progressConfig = config
         updatePaints()
-        invalidate()
+        
+        // 如果当前有目标进度，重新启动动画以应用新配置
+        if (targetProgress > 0f && progressConfig.enableAnimation) {
+            startProgressAnimation()
+        } else {
+            invalidate()
+        }
     }
 
     /**
@@ -134,8 +140,11 @@ class CircularProgressBar @JvmOverloads constructor(
     override fun setBackgroundColor(@ColorInt backgroundColor: Int) {
         this.progressConfig = this.progressConfig.copy(backgroundColor = backgroundColor)
         updatePaints()
-        // 只有在没有动画时才立即重绘，否则让动画自然重绘
-        if (!isAnimating) {
+        
+        // 如果当前有目标进度，重新启动动画以应用新配置
+        if (targetProgress > 0f && progressConfig.enableAnimation) {
+            startProgressAnimation()
+        } else {
             invalidate()
         }
     }
@@ -152,8 +161,11 @@ class CircularProgressBar @JvmOverloads constructor(
     fun setProgressColor(@ColorInt progressColor: Int) {
         this.progressConfig = this.progressConfig.copy(progressColor = progressColor)
         updatePaints()
-        // 只有在没有动画时才立即重绘，否则让动画自然重绘
-        if (!isAnimating) {
+        
+        // 如果当前有目标进度，重新启动动画以应用新配置
+        if (targetProgress > 0f && progressConfig.enableAnimation) {
+            startProgressAnimation()
+        } else {
             invalidate()
         }
     }
@@ -169,6 +181,15 @@ class CircularProgressBar @JvmOverloads constructor(
      */
     fun setEnableAnimation(enableAnimation: Boolean) {
         this.progressConfig = this.progressConfig.copy(enableAnimation = enableAnimation)
+        
+        // 如果当前有目标进度，重新启动动画以应用新配置
+        if (targetProgress > 0f && progressConfig.enableAnimation) {
+            startProgressAnimation()
+        } else if (targetProgress > 0f && !progressConfig.enableAnimation) {
+            // 如果关闭动画，直接显示目标进度
+            currentProgress = targetProgress
+            invalidate()
+        }
     }
 
     /**
@@ -181,6 +202,11 @@ class CircularProgressBar @JvmOverloads constructor(
      */
     fun setAnimateFromZero(animateFromZero: Boolean) {
         this.progressConfig = this.progressConfig.copy(animateFromZero = animateFromZero)
+        
+        // 如果当前有目标进度且动画开启，重新启动动画以应用新配置
+        if (targetProgress > 0f && progressConfig.enableAnimation) {
+            startProgressAnimation()
+        }
     }
 
     /**
